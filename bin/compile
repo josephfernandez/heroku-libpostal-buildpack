@@ -10,29 +10,29 @@ mkdir -p "$cache"
 
 cd "$cache"
 
-# Install dependencies for Snappy and LZF
-echo "-----> Installing dependencies"
-apt-get install -y build-essential wget git automake libtool liblzf-dev || true
+# # Install dependencies for Snappy and LZF
+# echo "-----> Installing dependencies"
+# apt-get install -y build-essential wget git automake libtool liblzf-dev || true
 
-# Download and install Snappy
-echo "-----> Downloading Snappy"
-wget https://codeload.github.com/google/snappy/tar.gz/1.2.1 -O snappy.tar.gz
-tar -zxvf snappy.tar.gz
-cd snappy-1.2.1
-mkdir build
-cd build
-cmake .. && make
-cd ../../
+# # Download and install Snappy
+# echo "-----> Downloading Snappy"
+# wget https://codeload.github.com/google/snappy/tar.gz/1.2.1 -O snappy.tar.gz
+# tar -zxvf snappy.tar.gz
+# cd snappy-1.2.1
+# mkdir build
+# cd build
+# cmake .. && make
+# cd ../../
 
-# Debug: List the contents of the Snappy directory
-echo "-----> Listing Snappy directory contents"
-ls -R snappy-1.2.1
+# # Debug: List the contents of the Snappy directory
+# echo "-----> Listing Snappy directory contents"
+# ls -R snappy-1.2.1
 
-# Check if the include directory exists
-if [ ! -d "snappy-1.2.1/include/snappy" ]; then
-    echo "Snappy include directory does not exist. Check the installation."
-    exit 1
-fi
+# # Check if the include directory exists
+# if [ ! -d "snappy-1.2.1/include/snappy" ]; then
+#     echo "Snappy include directory does not exist. Check the installation."
+#     exit 1
+# fi
 
 # Download and install libpostal
 echo "-----> Downloading libpostal"

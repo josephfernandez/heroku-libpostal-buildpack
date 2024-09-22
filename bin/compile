@@ -15,7 +15,10 @@ mkdir -p "$INSTALL_DIR/include"
 # Download and extract libpostal
 curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
 
-# Build and install libpostal
+# Check extracted files
+ls -l "$INSTALL_DIR"
+
+# Navigate to the extracted directory (adjust as necessary)
 cd "$INSTALL_DIR/libpostal-1.1"
 mkdir build && cd build
 cmake ..

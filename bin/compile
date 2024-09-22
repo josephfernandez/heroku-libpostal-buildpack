@@ -20,7 +20,7 @@ wget https://codeload.github.com/google/snappy/tar.gz/1.2.1 -O snappy.tar.gz
 tar -zxvf snappy.tar.gz
 cd snappy-1.2.1
 # ./autogen.sh
-git submodule update --init
+# git submodule update --init
 ./configure --prefix=/app/snappy
 cd build && cmake ../ && make
 # make

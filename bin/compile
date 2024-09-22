@@ -34,6 +34,7 @@ mkdir -p "$cache"
 
 # Download and install libpostal
 # cd -
+cd $cache
 echo "-----> Downloading libpostal"
 # echo "suh dude ---> $build"
 git clone https://github.com/openvenues/libpostal --depth 1
@@ -42,7 +43,7 @@ cd libpostal/
 # LDFLAGS="-L$build/app/libpostal/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/app/libpostal/lib/pkgconfig"
 # LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" 
 PKG_CONFIG_PATH="$build/lib/pkgconfig" 
-./configure --prefix=/app/libpostal --datadir=$build
+./configure --datadir=$build
 # ./configure --prefix=/app/libpostal --datadir=$build
 make -j4
 make install

@@ -9,9 +9,9 @@ echo "-----> Installing libpostal"
 apt-get update && apt-get install -y build-essential curl pkg-config cmake
 
 # Download and install libpostal
-curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz
-tar -xzf v1.0.0.tar.gz
-cd libpostal-1.0.0
+curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz
+tar -xzf v1.1.tar.gz
+cd libpostal-1.1
 
 # Create a build directory and configure
 mkdir -p build

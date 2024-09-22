@@ -5,32 +5,39 @@ CACHE_DIR=$CACHE_DIR
 
 echo "-----> Installing libpostal"
 
-# Update package lists and install dependencies
+# Create a writable directory for libpostal installation
+INSTALL_DIR=/app/.heroku/personal-libpostal
+mkdir -p $INSTALL_DIR/lib/pkgconfig $INSTALL_DIR/include $INSTALL_DIR/lib
+
+# Update package lists and install dependencies (only if possible)
 apt-get update && apt-get install -y build-essential curl pkg-config cmake
 
 # Download and install libpostal
-curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz
-tar -xzf v1.1.tar.gz
-cd libpostal-1.1
+curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz
+tar -xzf v1.0.0.tar.gz
+cd libpostal-1.0.0
 
 # Create a build directory and configure
 mkdir -p build
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/app/.heroku/personal-libpostal
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
 
 # Build and install
 make
 make install
 
-# Ensure pkg-config can find libpostal
-echo "prefix=/app/.heroku/personal-libpostal" > /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "libdir=\${prefix}/lib" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "includedir=\${prefix}/include" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "Name: libpostal" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "Description: A library for parsing street addresses" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "Version: 1.0.0" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "Libs: -L\${libdir} -llibpostal" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
-echo "Cflags: -I\${includedir}" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+# Create pkg-config file for libpostal
+cat <<EOF > $INSTALL_DIR/lib/pkgconfig/libpostal.pc
+prefix=$INSTALL_DIR
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+
+Name: libpostal
+Description: A library for parsing street addresses
+Version: 1.0.0
+Libs: -L\${libdir} -llibpostal
+Cflags: -I\${includedir}
+EOF
 
 # Cleanup
 cd ../../

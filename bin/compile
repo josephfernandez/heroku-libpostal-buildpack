@@ -22,6 +22,7 @@ cd snappy-1.2.1
 # ./autogen.sh
 # git submodule update --init
 # ./configure --prefix=/app/snappy
+mkdir build
 cd build && cmake ../ && make
 # make
 # make install

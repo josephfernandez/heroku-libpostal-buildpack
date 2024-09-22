@@ -22,8 +22,13 @@ cd snappy-1.2.1
 mkdir build
 cd build
 cmake .. && make
-make install
 cd ../../
+
+# Check if Snappy header files exist
+if [ ! -d "$cache/snappy-1.2.1/include/snappy" ]; then
+    echo "Snappy include directory does not exist. Check the installation."
+    exit 1
+fi
 
 # Download and install libpostal
 echo "-----> Downloading libpostal"

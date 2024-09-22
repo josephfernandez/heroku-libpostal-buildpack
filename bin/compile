@@ -10,18 +10,15 @@ mkdir -p "$cache"
 
 cd "$cache"
 
-# Install dependencies for Snappy and LZF
+# Install dependencies for Snappy and LZF without apt-get update
 echo "-----> Installing dependencies"
-apt-get update
-apt-get install -y build-essential wget git automake libtool liblzf-dev
+apt-get install -y build-essential wget git automake libtool liblzf-dev || true
 
 # Download and install Snappy
 echo "-----> Downloading Snappy"
 wget https://codeload.github.com/google/snappy/tar.gz/1.1.3 -O snappy.tar.gz
 tar -zxvf snappy.tar.gz
 cd snappy-1.1.3
-
-# Run autogen and configure
 ./autogen.sh
 ./configure --prefix=/app/snappy
 make
@@ -32,18 +29,13 @@ cd ..
 echo "-----> Downloading libpostal"
 git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
-
-# Bootstrap and configure libpostal
 ./bootstrap.sh
 LDFLAGS="-L$build/lib" CFLAGS="-I$build/include" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir="$build"
-
-# Copy Snappy headers if necessary
 cp /app/snappy/include/snappy* include/
-
 make
 make install
 
-# Move installed libraries to the build directory
 mv /app/snappy /app/libpostal "$build"
+
 
 echo "-----> Installation completed successfully"

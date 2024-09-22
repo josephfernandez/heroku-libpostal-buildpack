@@ -44,6 +44,8 @@ cd libpostal/
 make
 make install DESTDIR="$build/libpostal"
 
+export PKG_CONFIG_PATH="$build/libpostal/lib/pkgconfig:$PKG_CONFIG_PATH"
+
 # Confirm installation
 if [ -d "$build/libpostal" ]; then
     echo "libpostal installed successfully."

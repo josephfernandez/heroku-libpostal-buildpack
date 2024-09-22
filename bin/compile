@@ -12,7 +12,7 @@ mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 
 # Download precompiled libpostal binaries
-curl -L https://github.com/openvenues/libpostal/releases/download/v1.1.0/libpostal-1.1.0-linux.tar.gz | tar xz -C "$INSTALL_DIR"
+curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
 
 # Create pkg-config file
 cat <<EOF > "$INSTALL_DIR/lib/pkgconfig/libpostal.pc"
@@ -22,7 +22,7 @@ includedir=\${prefix}/include
 
 Name: libpostal
 Description: A library for parsing street addresses
-Version: 1.1.0
+Version: 1.1
 Libs: -L\${libdir} -llibpostal
 Cflags: -I\${includedir}
 EOF

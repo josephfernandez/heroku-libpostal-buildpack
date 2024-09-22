@@ -43,8 +43,8 @@ cd libpostal/
 # LDFLAGS="-L$build/app/libpostal/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/app/libpostal/lib/pkgconfig"
 # LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" 
 PKG_CONFIG_PATH="$build/lib/pkgconfig" 
-./configure --datadir=$build
-# ./configure --prefix=/app/libpostal --datadir=$build
+./configure --prefix=/app/libpostal --datadir=$build
+# ./configure  --datadir=$build
 make -j4
 make install
 
@@ -57,6 +57,8 @@ else
     echo "libpostal.pc not found. Installation may have failed."
     exit 1
 fi
+
+sudo mv /app/libpostal $build
 # echo $PKG_CONFIG_PATH
 # cd $build/usr/local/lib/pkgconfig
 # touch libpostal.pc

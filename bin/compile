@@ -57,4 +57,4 @@ fi
 echo "-----> libpostal installed"
 
 # Run Go install
-go install -v -tags heroku champions-bot
+go install -v -tags heroku polygon-champions-discord-bot

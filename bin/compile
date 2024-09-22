@@ -1,77 +1,28 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -e
+BUILD_DIR=$1
+CACHE_DIR=$CACHE_DIR
 
-build=$1
-cache=$2
+echo "-----> Installing libpostal"
 
-mkdir -p "$build"
-mkdir -p "$cache"
+# Update package lists
+apt-get update
 
-# # Install dependencies for Snappy and LZF
-# echo "-----> Installing dependencies"
-# apt-get install -y build-essential wget git automake libtool liblzf-dev || true
-
-# # Download and install Snappy
-# echo "-----> Downloading Snappy"
-# wget https://codeload.github.com/google/snappy/tar.gz/1.2.1 -O snappy.tar.gz
-# tar -zxvf snappy.tar.gz
-# cd snappy-1.2.1
-# mkdir build
-# cd build
-# cmake .. && make
-# cd ../../
-
-# # Debug: List the contents of the Snappy directory
-# echo "-----> Listing Snappy directory contents"
-# ls -R snappy-1.2.1
-
-# # Check if the include directory exists
-# if [ ! -d "snappy-1.2.1/include/snappy" ]; then
-#     echo "Snappy include directory does not exist. Check the installation."
-#     exit 1
-# fi
+# Install dependencies
+apt-get install -y build-essential curl
 
 # Download and install libpostal
-# cd -
-cd $cache
-echo "-----> Downloading libpostal"
-# echo "suh dude ---> $build"
-git clone https://github.com/openvenues/libpostal --depth 1
-cd libpostal/
-./bootstrap.sh
-# LDFLAGS="-L$build/app/libpostal/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/app/libpostal/lib/pkgconfig"
-# LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" 
-# PKG_CONFIG_PATH="$build/lib/pkgconfig" 
-./configure --prefix=/app/libpostal --datadir=$build
-# ./configure  --datadir=$build
-make -j4
+curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz
+tar -xzf v1.0.0.tar.gz
+cd libpostal-1.0.0
+mkdir -p build
+cd build
+cmake ..
+make
 make install
 
-# Search for libpostal.pc in the build directory
-libpostal_pc=$(find "$build" -name "libpostal.pc" 2>/dev/null)
+# Cleanup
+cd ../../
+rm -rf libpostal-1.0.0 v1.0.0.tar.gz
 
-if [ -n "$libpostal_pc" ]; then
-    echo "libpostal.pc found at: $libpostal_pc"
-else
-    echo "libpostal.pc not found. Installation may have failed."
-    exit 1
-fi
-
-sudo mv /app/libpostal $build
-# echo $PKG_CONFIG_PATH
-# cd $build/usr/local/lib/pkgconfig
-# touch libpostal.pc
-# ls
-# echo $PKG_CONFIG_PATH
-
-# mv /app/libpostal $build
-# # Confirm installation
-# if [ -d "$build/libpostal" ]; then
-#     echo "libpostal installed successfully."
-# else
-#     echo "libpostal installation failed."
-#     exit 1
-# fi
-
-# echo "-----> Installation completed successfully"
+echo "-----> libpostal installed"

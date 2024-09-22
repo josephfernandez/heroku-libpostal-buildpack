@@ -21,7 +21,7 @@ tar -zxvf snappy.tar.gz
 cd snappy-1.2.1
 # ./autogen.sh
 # git submodule update --init
-./configure --prefix=/app/snappy
+# ./configure --prefix=/app/snappy
 cd build && cmake ../ && make
 # make
 # make install

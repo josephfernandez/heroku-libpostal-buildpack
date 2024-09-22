@@ -40,7 +40,7 @@ git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
 PKG_CONFIG_PATH="$build/lib/pkgconfig"
-./configure --datadir=$build
+./configure --datadir=$build --disable-sse2
 make -j4
 make install
 

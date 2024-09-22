@@ -21,6 +21,11 @@ cmake ..
 make
 make install
 
+# Set PKG_CONFIG_PATH
+echo "/usr/local/lib/pkgconfig" > /etc/ld.so.conf.d/libpostal.conf
+sudo ldconfig
+
+
 # Cleanup
 cd ../../
 rm -rf libpostal-1.0.0 v1.0.0.tar.gz

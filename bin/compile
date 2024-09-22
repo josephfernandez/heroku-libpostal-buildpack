@@ -55,6 +55,7 @@ else
     exit 1
 fi
 
+cat libpostal_pc
 # echo $PKG_CONFIG_PATH
 # cd $build/usr/local/lib/pkgconfig
 # touch libpostal.pc

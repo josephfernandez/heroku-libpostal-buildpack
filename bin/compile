@@ -12,8 +12,15 @@ INSTALL_DIR="$HOME/.heroku/personal-libpostal"
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 
-# Download precompiled libpostal binaries
+# Download and extract libpostal
 curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
+
+# Build and install libpostal
+cd "$INSTALL_DIR/libpostal-1.1"
+mkdir build && cd build
+cmake ..
+make
+make install DESTDIR=$INSTALL_DIR
 
 # Create pkg-config file
 cat <<EOF > "$INSTALL_DIR/lib/pkgconfig/libpostal.pc"
@@ -28,7 +35,7 @@ Libs: -L\${libdir} -llibpostal
 Cflags: -I\${includedir}
 EOF
 
-export PKG_CONFIG_PATH="$HOME/.heroku/personal-libpostal/lib/pkgconfig"
+export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # Validate installation
 if pkg-config --exists libpostal; then

@@ -5,26 +5,27 @@ CACHE_DIR=$CACHE_DIR
 
 echo "-----> Installing libpostal"
 
-# Update package lists
+# Update package lists and install dependencies
 apt-get update
-
-# Install dependencies
-apt-get install -y build-essential curl
+apt-get install -y build-essential curl pkg-config cmake
 
 # Download and install libpostal
 curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz
 tar -xzf v1.0.0.tar.gz
 cd libpostal-1.0.0
+
+# Create a build directory and configure
 mkdir -p build
 cd build
-cmake ..
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+
+# Build and install
 make
 make install
 
-# Set PKG_CONFIG_PATH
-echo "/usr/local/lib/pkgconfig" > /etc/ld.so.conf.d/libpostal.conf
-sudo ldconfig
-
+# Ensure pkg-config can find libpostal
+echo "/usr/local/lib/pkgconfig" >> /etc/ld.so.conf.d/libpostal.conf
+ldconfig
 
 # Cleanup
 cd ../../

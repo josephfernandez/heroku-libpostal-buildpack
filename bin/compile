@@ -36,10 +36,10 @@ cd "$cache"
 
 # Download and install libpostal
 echo "-----> Downloading libpostal"
+git clone https://github.com/openvenues/libpostal --depth 1
+cd libpostal/
+./bootstrap.sh
 echo "----> suh dude $buildinclude"
-# git clone https://github.com/openvenues/libpostal --depth 1
-# cd libpostal/
-# ./bootstrap.sh
 # LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build"
 # ./configure --datadir=$build --disable-sse2
 # make -j4

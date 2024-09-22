@@ -18,12 +18,14 @@ curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | 
 # Check contents of the extracted libpostal directory
 ls -l "$INSTALL_DIR/libpostal-1.1"
 
-# Navigate to the extracted directory (check if CMakeLists.txt exists)
+# Navigate to the extracted directory (check if necessary files exist)
 cd "$INSTALL_DIR/libpostal-1.1"
-mkdir build && cd build
-cmake ..
+
+# Prepare the build using Autotools
+./bootstrap.sh
+./configure --prefix=$INSTALL_DIR
 make
-make install DESTDIR=$INSTALL_DIR
+make install
 
 # Create pkg-config file
 cat <<EOF > "$INSTALL_DIR/lib/pkgconfig/libpostal.pc"

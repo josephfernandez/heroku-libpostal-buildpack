@@ -44,6 +44,7 @@ EOF
 
 # Export PKG_CONFIG_PATH for subsequent commands
 export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
+echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"
 
 # Validate installation
 if pkg-config --exists libpostal; then
@@ -54,3 +55,6 @@ else
 fi
 
 echo "-----> libpostal installed"
+
+# Run Go install
+go install -v -tags heroku champions-bot

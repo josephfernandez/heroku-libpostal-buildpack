@@ -40,7 +40,7 @@ git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
 LDFLAGS="-L$build/snappy/lib" CFLAGS="-I$build/snappy/include" PKG_CONFIG_PATH="$build/snappy/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir="$build"
-cp -r "$build/snappy/include/snappy"* include/
+# cp -r "$build/snappy/include/snappy"* include/
 make
 make install DESTDIR="$build/libpostal"
 

@@ -33,7 +33,7 @@ mkdir -p "$cache"
 # fi
 
 # Download and install libpostal
-cd -
+# cd -
 echo "-----> Downloading libpostal"
 # echo "suh dude ---> $build"
 git clone https://github.com/openvenues/libpostal --depth 1

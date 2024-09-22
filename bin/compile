@@ -3,7 +3,6 @@
 set -e
 
 BUILD_DIR=$1
-CACHE_DIR=$CACHE_DIR
 
 echo "-----> Installing libpostal"
 
@@ -12,23 +11,8 @@ INSTALL_DIR="$HOME/.heroku/personal-libpostal"
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 
-# Install dependencies
-apt-get update -y
-apt-get install -y build-essential curl pkg-config cmake
-
-# Download and extract libpostal
-curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz | tar xz
-cd libpostal-1.0.0
-
-# Create a build directory
-mkdir build && cd build
-
-# Run cmake with the correct installation prefix
-cmake .. -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR"
-
-# Build and install
-make
-make install
+# Download precompiled libpostal binaries
+curl -L https://github.com/openvenues/libpostal/releases/download/v1.0.0/libpostal-1.0.0-linux.tar.gz | tar xz -C "$INSTALL_DIR"
 
 # Create pkg-config file
 cat <<EOF > "$INSTALL_DIR/lib/pkgconfig/libpostal.pc"
@@ -42,9 +26,5 @@ Version: 1.0.0
 Libs: -L\${libdir} -llibpostal
 Cflags: -I\${includedir}
 EOF
-
-# Clean up
-cd ../../
-rm -rf libpostal-1.0.0
 
 echo "-----> libpostal installed"

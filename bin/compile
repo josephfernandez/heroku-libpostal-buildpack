@@ -10,23 +10,13 @@ mkdir -p "$cache"
 
 cd "$cache"
 
-# Install dependencies without apt-get update
+# Install dependencies for Snappy and LZF without apt-get update
 echo "-----> Installing dependencies"
-apt-get install -y build-essential wget git automake libtool || true
-
-# Download and install LZF
-echo "-----> Downloading LZF"
-wget http://www.oberhumer.com/people/oberhumer/lzo/download/lzo-2.10.tar.gz
-tar -zxvf lzo-2.10.tar.gz
-cd lzo-2.10
-./configure --prefix=/app/lzo
-make
-make install
-cd ..
+apt-get install -y build-essential wget git automake libtool liblzf-dev || true
 
 # Download and install Snappy
 echo "-----> Downloading Snappy"
-wget https://codeload.github.com/google/snappy/tar.gz/1.1.3 -O snappy.tar.gz
+wget https://codeload.github.com/google/snappy/tar.gz/1.2.1 -O snappy.tar.gz
 tar -zxvf snappy.tar.gz
 cd snappy-1.1.3
 ./autogen.sh

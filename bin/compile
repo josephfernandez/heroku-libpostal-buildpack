@@ -42,7 +42,7 @@ cd libpostal/
 PKG_CONFIG_PATH="$build/lib/pkgconfig"
 ./configure --datadir=$build --disable-sse2
 make -j4
-make install
+make install DESTDIR="$build"
 
 
 # Confirm installation

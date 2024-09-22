@@ -40,7 +40,7 @@ echo "-----> Downloading libpostal"
 git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
-PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
+PKG_CONFIG_PATH="$build/app/libpostal/lib/pkgconfig"
 ./configure --prefix=/app/libpostal --datadir=$build --disable-sse2
 make -j4
 make install DESTDIR="$build"

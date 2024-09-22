@@ -38,6 +38,9 @@ cd "$cache"
 echo "-----> Downloading libpostal"
 echo $PKG_CONFIG_PATH
 PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
+cd $build/usr/local/lib/pkgconfig
+touch libpostal.pc
+ls
 echo $PKG_CONFIG_PATH
 # echo "suh dude ---> $build"
 # git clone https://github.com/openvenues/libpostal --depth 1

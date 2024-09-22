@@ -40,6 +40,11 @@ git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
 
+LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build"
+./configure --datadir=$build --disable-sse2
+make -j4
+make install DESTDIR="$build"
+
 # Search for libpostal.pc in the build directory
 libpostal_pc=$(find "$build" -name "libpostal.pc" 2>/dev/null)
 
@@ -49,12 +54,6 @@ else
     echo "libpostal.pc not found. Installation may have failed."
     exit 1
 fi
-
-# LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build"
-# ./configure --datadir=$build --disable-sse2
-# make -j4
-# make install DESTDIR="$build"
-
 
 # # Confirm installation
 # if [ -d "$build/libpostal" ]; then

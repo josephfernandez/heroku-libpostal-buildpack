@@ -12,10 +12,7 @@ cd "$cache"
 
 # Install dependencies for Snappy and LZF
 echo "-----> Installing dependencies"
-apt-get install -y build-essential wget git automake libtool liblzf-dev cmake || {
-    echo "Failed to install dependencies"
-    exit 1
-}
+apt-get install -y build-essential wget git automake libtool liblzf-dev || true
 
 # Download and install Snappy
 echo "-----> Downloading Snappy"

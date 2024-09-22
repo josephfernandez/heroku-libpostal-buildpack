@@ -22,7 +22,6 @@ cd snappy-1.2.1
 mkdir build
 cd build
 cmake .. && make
-make install DESTDIR="$build/snappy"
 cd ../../
 
 # Download and install libpostal

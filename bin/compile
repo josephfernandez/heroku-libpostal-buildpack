@@ -41,7 +41,7 @@ git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
 PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
-./configure --datadir=$build --disable-sse2
+./configure --prefix=/app/libpostal --datadir=$build --disable-sse2
 make -j4
 make install DESTDIR="$build"
 
@@ -55,6 +55,7 @@ else
     exit 1
 fi
 
+mv /app/libpostal $build
 # # Confirm installation
 # if [ -d "$build/libpostal" ]; then
 #     echo "libpostal installed successfully."

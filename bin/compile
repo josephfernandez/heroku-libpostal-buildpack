@@ -35,22 +35,23 @@ cd "$cache"
 # fi
 
 # Download and install libpostal
-echo "-----> Downloading libpostal"
-git clone https://github.com/openvenues/libpostal --depth 1
-cd libpostal/
-./bootstrap.sh
-LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build"
-./configure --datadir=$build --disable-sse2
-make -j4
-make install DESTDIR="$build"
+echo "$buildinclude"
+# echo "-----> Downloading libpostal"
+# git clone https://github.com/openvenues/libpostal --depth 1
+# cd libpostal/
+# ./bootstrap.sh
+# LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build"
+# ./configure --datadir=$build --disable-sse2
+# make -j4
+# make install DESTDIR="$build"
 
 
-# Confirm installation
-if [ -d "$build/libpostal" ]; then
-    echo "libpostal installed successfully."
-else
-    echo "libpostal installation failed."
-    exit 1
-fi
+# # Confirm installation
+# if [ -d "$build/libpostal" ]; then
+#     echo "libpostal installed successfully."
+# else
+#     echo "libpostal installation failed."
+#     exit 1
+# fi
 
-echo "-----> Installation completed successfully"
+# echo "-----> Installation completed successfully"

@@ -40,8 +40,7 @@ echo "suh dude ---> $build"
 git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
-
-LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
+PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
 ./configure --datadir=$build --disable-sse2
 make -j4
 make install DESTDIR="$build"

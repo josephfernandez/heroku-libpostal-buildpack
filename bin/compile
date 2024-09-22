@@ -36,24 +36,25 @@ cd "$cache"
 
 # Download and install libpostal
 echo "-----> Downloading libpostal"
-echo "suh dude ---> $build"
-git clone https://github.com/openvenues/libpostal --depth 1
-cd libpostal/
-./bootstrap.sh
-PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
-./configure --prefix=/app/libpostal --datadir=$build --disable-sse2
-make -j4
-make install DESTDIR="$build"
+printenv
+# echo "suh dude ---> $build"
+# git clone https://github.com/openvenues/libpostal --depth 1
+# cd libpostal/
+# ./bootstrap.sh
+# PKG_CONFIG_PATH="$build/usr/local/lib/pkgconfig"
+# ./configure --prefix=/app/libpostal --datadir=$build --disable-sse2
+# make -j4
+# make install DESTDIR="$build"
 
-# Search for libpostal.pc in the build directory
-libpostal_pc=$(find "$build" -name "libpostal.pc" 2>/dev/null)
+# # Search for libpostal.pc in the build directory
+# libpostal_pc=$(find "$build" -name "libpostal.pc" 2>/dev/null)
 
-if [ -n "$libpostal_pc" ]; then
-    echo "libpostal.pc found at: $libpostal_pc"
-else
-    echo "libpostal.pc not found. Installation may have failed."
-    exit 1
-fi
+# if [ -n "$libpostal_pc" ]; then
+#     echo "libpostal.pc found at: $libpostal_pc"
+# else
+#     echo "libpostal.pc not found. Installation may have failed."
+#     exit 1
+# fi
 
 # mv /app/libpostal $build
 # # Confirm installation

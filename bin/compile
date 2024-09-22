@@ -24,8 +24,9 @@ cd build
 cmake .. && make
 cd ../../
 
-# Check if Snappy header files exist
-if [ ! -d "$cache/snappy-1.2.1/include/snappy" ]; then
+# Check where Snappy installed its headers and libraries
+echo "-----> Checking Snappy installation"
+if [ ! -d "snappy-1.2.1/include" ]; then
     echo "Snappy include directory does not exist. Check the installation."
     exit 1
 fi

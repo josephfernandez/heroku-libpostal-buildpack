@@ -6,8 +6,7 @@ CACHE_DIR=$CACHE_DIR
 echo "-----> Installing libpostal"
 
 # Update package lists and install dependencies
-apt-get update
-apt-get install -y build-essential curl pkg-config cmake
+apt-get update && apt-get install -y build-essential curl pkg-config cmake
 
 # Download and install libpostal
 curl -LO https://github.com/openvenues/libpostal/archive/refs/tags/v1.0.0.tar.gz
@@ -17,15 +16,21 @@ cd libpostal-1.0.0
 # Create a build directory and configure
 mkdir -p build
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+cmake .. -DCMAKE_INSTALL_PREFIX=/app/.heroku/personal-libpostal
 
 # Build and install
 make
 make install
 
 # Ensure pkg-config can find libpostal
-echo "/usr/local/lib/pkgconfig" >> /etc/ld.so.conf.d/libpostal.conf
-ldconfig
+echo "prefix=/app/.heroku/personal-libpostal" > /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "libdir=\${prefix}/lib" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "includedir=\${prefix}/include" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "Name: libpostal" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "Description: A library for parsing street addresses" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "Version: 1.0.0" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "Libs: -L\${libdir} -llibpostal" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
+echo "Cflags: -I\${includedir}" >> /app/.heroku/personal-libpostal/lib/pkgconfig/libpostal.pc
 
 # Cleanup
 cd ../../

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+set -x  # Enable debugging
 
 BUILD_DIR=$1
 
@@ -26,5 +27,15 @@ Version: 1.1
 Libs: -L\${libdir} -llibpostal
 Cflags: -I\${includedir}
 EOF
+
+export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+# Validate installation
+if pkg-config --exists libpostal; then
+  echo "libpostal is installed correctly."
+else
+  echo "libpostal installation failed."
+  exit 1
+fi
 
 echo "-----> libpostal installed"

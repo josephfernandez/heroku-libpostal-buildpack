@@ -45,7 +45,7 @@ make
 make install DESTDIR="$build/libpostal"
 
 # Move installed directories to the build folder
-mv /app/snappy "$build"
+# mv /app/snappy "$build"
 mv /app/libpostal "$build"
 
 echo "-----> Installation completed successfully"

@@ -35,8 +35,8 @@ cd "$cache"
 # fi
 
 # Download and install libpostal
+echo "-----> Downloading libpostal"
 echo "$buildinclude"
-# echo "-----> Downloading libpostal"
 # git clone https://github.com/openvenues/libpostal --depth 1
 # cd libpostal/
 # ./bootstrap.sh

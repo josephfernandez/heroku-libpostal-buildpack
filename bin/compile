@@ -39,11 +39,10 @@ echo "-----> Downloading libpostal"
 git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
-LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$build
+CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$build
 # cp -r "$build/snappy/include/snappy"* include/
 make
 make install
-
 
 # Confirm installation
 if [ -d "$build/libpostal" ]; then

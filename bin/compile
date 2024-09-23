@@ -7,8 +7,8 @@ BUILD_DIR=$1
 
 echo "-----> Installing libpostal"
 
-# Create installation directories
-INSTALL_DIR="/app/.heroku/personal-libpostal"
+# Create installation directories in BUILD_DIR
+INSTALL_DIR="$BUILD_DIR/personal-libpostal"
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 

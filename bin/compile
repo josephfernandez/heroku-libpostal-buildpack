@@ -29,6 +29,19 @@ cd "$INSTALL_DIR/libpostal-1.1"
 make
 make install
 
+# Create pkg-config file
+cat <<EOF > "$INSTALL_DIR/lib/pkgconfig/libpostal.pc"
+prefix=$INSTALL_DIR
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+
+Name: libpostal
+Description: A library for parsing street addresses
+Version: 1.1
+Libs: -L\${libdir} -llibpostal
+Cflags: -I\${includedir}
+EOF
+
 # Export PKG_CONFIG_PATH for subsequent commands
 export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
 echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"
@@ -40,5 +53,11 @@ else
   echo "libpostal installation failed."
   exit 1
 fi
+
+# Additional validation
+pkg-config --cflags -- libpostal || {
+  echo "libpostal not found in pkg-config after installation."
+  exit 1
+}
 
 echo "-----> libpostal installed"

@@ -47,4 +47,8 @@ pkg-config --cflags -- libpostal || {
   exit 1
 }
 
+# Set PKG_CONFIG_PATH for subsequent buildpacks
+echo "-----> Setting PKG_CONFIG_PATH for next buildpack"
+echo "export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> "$BUILD_DIR/.profile.d/pkg_config.sh"
+
 echo "-----> libpostal installed"

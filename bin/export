@@ -1,0 +1,17 @@
+# Validate installation
+if pkg-config --exists libpostal; then
+  echo "libpostal is installed correctly."
+else
+  echo "libpostal installation failed."
+  exit 1
+fi
+
+# Additional validation
+pkg-config --cflags -- libpostal || {
+  echo "libpostal not found in pkg-config after installation."
+  exit 1
+}
+
+# Export PKG_CONFIG_PATH for subsequent commands
+export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
+echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"

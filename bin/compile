@@ -15,9 +15,6 @@ mkdir -p "$INSTALL_DIR/include"
 # Download and extract libpostal
 curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
 
-# Check contents of the extracted libpostal directory
-ls -l "$INSTALL_DIR/libpostal-1.1"
-
 # Navigate to the extracted directory
 cd "$INSTALL_DIR/libpostal-1.1"
 
@@ -46,12 +43,3 @@ pkg-config --cflags -- libpostal || {
   echo "libpostal not found in pkg-config after installation."
   exit 1
 }
-
-# Create the .profile.d directory if it doesn't exist
-mkdir -p "$BUILD_DIR/.profile.d"
-
-# Set PKG_CONFIG_PATH for subsequent buildpacks
-echo "-----> Setting PKG_CONFIG_PATH for next buildpack"
-echo "export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> "$BUILD_DIR/.profile.d/pkg_config.sh"
-
-echo "-----> libpostal installed"

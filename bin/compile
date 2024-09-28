@@ -14,7 +14,7 @@ ls $ENV_DIR
 echo "-----> Installing libpostal"
 
 # Create installation directories in BUILD_DIR
-INSTALL_DIR="$BUILD_DIR/personal-libpostal"
+INSTALL_DIR="$CACHE_DIR/personal-libpostal"
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 

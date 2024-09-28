@@ -4,42 +4,48 @@ set -e
 set -x  # Enable debugging
 
 BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
 
-echo "-----> Installing libpostal"
+ls $BUILD_DIR
+ls $CACHE_DIR
+ls $ENV_DIR
 
-# Create installation directories in BUILD_DIR
-INSTALL_DIR="$BUILD_DIR/personal-libpostal"
-mkdir -p "$INSTALL_DIR/lib/pkgconfig"
-mkdir -p "$INSTALL_DIR/include"
+# echo "-----> Installing libpostal"
 
-# Download and extract libpostal
-curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
+# # Create installation directories in BUILD_DIR
+# INSTALL_DIR="$BUILD_DIR/personal-libpostal"
+# mkdir -p "$INSTALL_DIR/lib/pkgconfig"
+# mkdir -p "$INSTALL_DIR/include"
 
-# Navigate to the extracted directory
-cd "$INSTALL_DIR/libpostal-1.1"
+# # Download and extract libpostal
+# curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
 
-# Prepare the build using Autotools
-./bootstrap.sh
-./configure --prefix="$INSTALL_DIR"
+# # Navigate to the extracted directory
+# cd "$INSTALL_DIR/libpostal-1.1"
 
-# Build and install
-make
-make install
+# # Prepare the build using Autotools
+# ./bootstrap.sh
+# ./configure --prefix="$INSTALL_DIR"
 
-# Export PKG_CONFIG_PATH for subsequent commands
-export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
-echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"
+# # Build and install
+# make
+# make install
 
-# Validate installation
-if pkg-config --exists libpostal; then
-  echo "libpostal is installed correctly."
-else
-  echo "libpostal installation failed."
-  exit 1
-fi
+# # Export PKG_CONFIG_PATH for subsequent commands
+# export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
+# echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"
 
-# Additional validation
-pkg-config --cflags -- libpostal || {
-  echo "libpostal not found in pkg-config after installation."
-  exit 1
-}
+# # Validate installation
+# if pkg-config --exists libpostal; then
+#   echo "libpostal is installed correctly."
+# else
+#   echo "libpostal installation failed."
+#   exit 1
+# fi
+
+# # Additional validation
+# pkg-config --cflags -- libpostal || {
+#   echo "libpostal not found in pkg-config after installation."
+#   exit 1
+# }

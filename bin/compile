@@ -6,10 +6,7 @@ set -x  # Enable debugging
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
-
-ls $BUILD_DIR
-ls $CACHE_DIR
-ls $ENV_DIR
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 echo "-----> Installing libpostal"
 
@@ -31,6 +28,8 @@ cd "$INSTALL_DIR/libpostal-1.1"
 # Build and install
 make
 make install
+
+echo "export PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH" > $BP_DIR/export
 
 ls $BUILD_DIR
 ls $CACHE_DIR

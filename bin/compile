@@ -30,7 +30,3 @@ make
 make install
 
 echo "export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH\"" > $BP_DIR/export
-
-ls $BUILD_DIR
-ls $CACHE_DIR
-ls $ENV_DIR

@@ -1,47 +1,44 @@
-# #!/bin/sh
+#!/usr/bin/env bash
+
+
+
 
 set -e
 
-# Variables passed to the script
+
+
 build=$1
 cache=$2
 
-# Create build and cache directories
 mkdir -p $build
 mkdir -p $cache
 
-# Move to the cache directory
 cd $cache
 
-# Download and build Snappy
 echo "-----> Downloading snappy"
-git clone https://github.com/google/snappy
-cd snappy
-git submodule update --init  # Initialize and update submodules
-cmake .                      # Use CMake to generate the build files
-make                         # Build Snappy
-
-# Copy Snappy libraries and headers to the $build directory
-echo "-----> Copying Snappy libraries and headers to the build directory"
-cp -r libsnappy* $build    # Copy the Snappy libraries (adjust this if paths differ)
-cp -r *.h $build       # Copy the Snappy header files
-
-cd -  # Go back to the previous directory
-
-# Download and build libpostal
+wget https://github.com/google/snappy/releases/download/1.1.3/snappy-1.1.3.tar.gz -O snappy.tar.gz
+tar -zxvf snappy.tar.gz
+cd snappy-1.1.3
+./autogen.sh
+./configure --prefix=/app/snappy
+make
+make install
+cd -
 echo "-----> Downloading libpostal"
 
-# git clone https://github.com/openvenues/libpostal --depth 1
+git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
-LDFLAGS="-L$build/lib" CFLAGS="-I$build/include" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix='/app/libpostal' --datadir=$build
-cp $cache/snappy* .
+LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$build
+cp ~/vendor/include/snappy* .
 
 make
 make install
 
-# Copy the libpostal installation to the build directory
-mv /app/libpostal $build  # Adjust the paths accordingly if needed
+mv /app/snappy /app/libpostal $build
+# curl --fail --retry 3 --retry-delay 1 --connect-timeout 3 https://s3.amazonaws.com/toolsbucket/vendor.tar.bz2 -s -o - | tar jvxf - -C vendor/
+
+#profile.d script -> downloads the data.
 
 # Optional step: Clean up unnecessary files (if needed)
 # rm -rf $cache/libpostal

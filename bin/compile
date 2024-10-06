@@ -13,8 +13,8 @@ cd $CACHE_DIR
 echo "-----> Downloading snappy"
 git clone https://github.com/google/snappy
 cd snappy
+cmake
 make
-make install
 cd -
 
 echo "-----> Installing libpostal"

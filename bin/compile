@@ -23,9 +23,11 @@ cd "$INSTALL_DIR/libpostal-1.1"
 
 # Prepare the build using Autotools
 ./bootstrap.sh
-./configure --prefix="$INSTALL_DIR"
 
-# Build and install
+# Set LDFLAGS and CFLAGS for the build process
+LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="$INSTALL_DIR"
+
+# Build and install libpostal
 make
 make install
 
@@ -40,7 +42,10 @@ if [ -n "$LIBPOSTAL_PATH" ]; then
     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
 
-    echo "LD_LIBRARY_PATH and PKG_CONFIG_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
+    # Add LIBDIR to LD_RUN_PATH to assist with linking
+    echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+
+    echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
 else
     echo "Error: libpostal.so.1 not found."
     exit 1

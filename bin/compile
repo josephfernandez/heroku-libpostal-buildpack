@@ -13,7 +13,6 @@ cd $CACHE_DIR
 echo "-----> Downloading snappy"
 git clone https://github.com/google/snappy
 cd snappy
-./configure --prefix=/app/snappy
 make
 make install
 cd -

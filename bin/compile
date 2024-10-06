@@ -13,6 +13,7 @@ cd $CACHE_DIR
 echo "-----> Downloading snappy"
 git clone https://github.com/google/snappy
 cd snappy
+git submodule update --init
 cmake .
 make
 cd -

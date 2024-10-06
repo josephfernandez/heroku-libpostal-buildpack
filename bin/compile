@@ -33,22 +33,22 @@ make install
 
 mv $INSTALL_DIR $BUILD_DIR
 
-# # Locate the installed libpostal shared library
-# LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
+# Locate the installed libpostal shared library
+LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
 
-# # If libpostal.so.1 is found
-# if [ -n "$LIBPOSTAL_PATH" ]; then
-#     # Extract the directory path where the library is located
-#     LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
+# If libpostal.so.1 is found
+if [ -n "$LIBPOSTAL_PATH" ]; then
+    # Extract the directory path where the library is located
+    LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
 
-#     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
-#     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
+    # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
+    echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
 
-#     # Add LIBDIR to LD_RUN_PATH to assist with linking
-#     echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+    # Add LIBDIR to LD_RUN_PATH to assist with linking
+    echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
 
-#     echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
-# else
-#     echo "Error: libpostal.so.1 not found."
-#     exit 1
-# fi
+    echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
+else
+    echo "Error: libpostal.so.1 not found."
+    exit 1
+fi

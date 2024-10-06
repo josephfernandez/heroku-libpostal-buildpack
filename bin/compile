@@ -23,8 +23,8 @@ make                         # Build Snappy
 
 # Copy Snappy libraries and headers to the $build directory
 echo "-----> Copying Snappy libraries and headers to the build directory"
-cp -r libsnappy* $build/lib/    # Copy the Snappy libraries (adjust this if paths differ)
-cp -r *.h $build/include/       # Copy the Snappy header files
+cp -r libsnappy* $build    # Copy the Snappy libraries (adjust this if paths differ)
+cp -r *.h $build       # Copy the Snappy header files
 
 cd -  # Go back to the previous directory
 

@@ -10,6 +10,15 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 cd $CACHE_DIR
 
+echo "-----> Downloading snappy"
+git clone https://github.com/google/snappy
+cd snappy
+./autogen.sh
+./configure --prefix=/app/snappy
+make
+make install
+cd -
+
 echo "-----> Installing libpostal"
 
 git clone https://github.com/openvenues/libpostal

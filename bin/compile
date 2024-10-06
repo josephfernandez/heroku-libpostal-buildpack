@@ -31,8 +31,8 @@ cd "$INSTALL_DIR/libpostal-1.1"
 
 # Build and install libpostal
 make -j4
-sudo make install
-sudo ldconfig
+make install
+ldconfig
 
 # # Copy the contents from /app/libpostal
 # cp -r /app/libpostal $BUILD_DIR

@@ -1,63 +1,111 @@
-#!/bin/sh
+# #!/bin/sh
 
 set -e
-set -x  # Enable debugging
 
-BUILD_DIR=$1
-CACHE_DIR=$2
-ENV_DIR=$3
-BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+# Variables passed to the script
+build=$1
+cache=$2
 
-cd $CACHE_DIR
+# Create build and cache directories
+mkdir -p $build
+mkdir -p $cache
 
+# Move to the cache directory
+cd $cache
+
+# Download and build Snappy
 echo "-----> Downloading snappy"
 git clone https://github.com/google/snappy
 cd snappy
-git submodule update --init
-cmake .
-make
-cd -
+git submodule update --init  # Initialize and update submodules
+cmake .                      # Use CMake to generate the build files
+make                         # Build Snappy
 
-echo "-----> Installing libpostal"
+# Copy Snappy libraries and headers to the $build directory
+echo "-----> Copying Snappy libraries and headers to the build directory"
+cp -r libsnappy* $build/lib/    # Copy the Snappy libraries (adjust this if paths differ)
+cp -r *.h $build/include/       # Copy the Snappy header files
+
+cd -  # Go back to the previous directory
+
+# Download and build libpostal
+echo "-----> Downloading libpostal"
+
 git clone https://github.com/openvenues/libpostal --depth 1
 cd libpostal/
 ./bootstrap.sh
-LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$build
+LDFLAGS="-L$build/lib" CFLAGS="-I$build/include" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix='app/libpostal' --datadir=$build
 cp ~/vendor/include/snappy* .
 
-# git clone https://github.com/openvenues/libpostal
+make
+make install
 
-# cd "libpostal"
+# Copy the libpostal installation to the build directory
+mv /app/libpostal $build  # Adjust the paths accordingly if needed
 
-# INSTALL_DIR=$(pwd)
-# mkdir -p "$INSTALL_DIR/lib/pkgconfig"
-# mkdir -p "$INSTALL_DIR/include"
+# Optional step: Clean up unnecessary files (if needed)
+# rm -rf $cache/libpostal
+# rm -rf $cache/snappy
 
-# ./bootstrap.sh
+# set -e
+# set -x  # Enable debugging
 
-# # Set LDFLAGS and CFLAGS for the build process
-# LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="/app/libpostal"
+# BUILD_DIR=$1
+# CACHE_DIR=$2
+# ENV_DIR=$3
+# BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
-# # Build and install libpostal
+# cd $CACHE_DIR
+
+# echo "-----> Downloading snappy"
+# git clone https://github.com/google/snappy
+# cd snappy
+# git submodule update --init
+# cmake .
 # make
-# make install
+# cd -
 
-# # Locate the installed libpostal shared library
-# LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
+# echo "-----> Installing libpostal"
+# # git clone https://github.com/openvenues/libpostal --depth 1
+# cd libpostal/
+# ./bootstrap.sh
+# LDFLAGS="-L$BUILD_DIR/lib" CFLAGS="-I$BUILD_DIR/include" PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$BUILD_DIR
+# cp ~/vendor/include/snappy* .
 
-# # If libpostal.so.1 is found
-# if [ -n "$LIBPOSTAL_PATH" ]; then
-#     # Extract the directory path where the library is located
-#     LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
-#     echo "LIB_DIR is $LIB_DIR"
-#     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
-#     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
+# mv /app/snappy /app/libpostal $BUILD_DIR
+# # git clone https://github.com/openvenues/libpostal
 
-#     # Add LIBDIR to LD_RUN_PATH to assist with linking
-#     echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+# # cd "libpostal"
 
-#     echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
-# else
-#     echo "Error: libpostal.so.1 not found."
-#     exit 1
-# fi
+# # INSTALL_DIR=$(pwd)
+# # mkdir -p "$INSTALL_DIR/lib/pkgconfig"
+# # mkdir -p "$INSTALL_DIR/include"
+
+# # ./bootstrap.sh
+
+# # # Set LDFLAGS and CFLAGS for the build process
+# # LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="/app/libpostal"
+
+# # # Build and install libpostal
+# # make
+# # make install
+
+# # # Locate the installed libpostal shared library
+# # LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
+
+# # # If libpostal.so.1 is found
+# # if [ -n "$LIBPOSTAL_PATH" ]; then
+# #     # Extract the directory path where the library is located
+# #     LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
+# #     echo "LIB_DIR is $LIB_DIR"
+# #     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
+# #     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
+
+# #     # Add LIBDIR to LD_RUN_PATH to assist with linking
+# #     echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+
+# #     echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
+# # else
+# #     echo "Error: libpostal.so.1 not found."
+# #     exit 1
+# # fi

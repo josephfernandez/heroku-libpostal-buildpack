@@ -26,17 +26,17 @@ cd "$INSTALL_DIR/libpostal-1.1"
 ./bootstrap.sh
 
 # Set LDFLAGS and CFLAGS for the build process
-LDFLAGS="-L$BUILD_DIR/lib" CFLAGS="-I$BUILD_DIR/include" PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig" ./configure --prefix='/app/libpostal' --datadir=$BUILD_DIR
+LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix='/app/libpostal' --datadir=$INSTALL_DIR
 
 # Build and install libpostal
 make
 make install
 
-# Copy the contents from /app/libpostal to /tmp/build_37c7bf67/libpostal
-cp -r /app/libpostal $BUILD_DIR
+# # Copy the contents from /app/libpostal
+# cp -r /app/libpostal $BUILD_DIR
 
-# If the copy was successful, remove the original directory
-rm -rf /app/libpostal
+# # If the copy was successful, remove the original directory
+# rm -rf /app/libpostal
 
 # # Locate the installed libpostal shared library
 # LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)

@@ -23,7 +23,7 @@ mkdir -p "$INSTALL_DIR/include"
 ./bootstrap.sh
 
 # Set LDFLAGS and CFLAGS for the build process
-LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --datadir=$CACHE_DIR
+LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="/app/libpostal"
 
 # Build and install libpostal
 make
@@ -36,7 +36,7 @@ LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
 if [ -n "$LIBPOSTAL_PATH" ]; then
     # Extract the directory path where the library is located
     LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
-
+    echo "LIB_DIR is $LIB_DIR"
     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
 

@@ -19,40 +19,45 @@ make
 cd -
 
 echo "-----> Installing libpostal"
-
-git clone https://github.com/openvenues/libpostal
-
-cd "libpostal"
-
-INSTALL_DIR=$(pwd)
-mkdir -p "$INSTALL_DIR/lib/pkgconfig"
-mkdir -p "$INSTALL_DIR/include"
-
+git clone https://github.com/openvenues/libpostal --depth 1
+cd libpostal/
 ./bootstrap.sh
+LDFLAGS="-L$build/lib" CFLAGS="-I$buildinclude" PKG_CONFIG_PATH="$build/lib/pkgconfig" ./configure --prefix=/app/libpostal --datadir=$build
+cp ~/vendor/include/snappy* .
 
-# Set LDFLAGS and CFLAGS for the build process
-LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="/app/libpostal"
+# git clone https://github.com/openvenues/libpostal
 
-# Build and install libpostal
-make
-make install
+# cd "libpostal"
 
-# Locate the installed libpostal shared library
-LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
+# INSTALL_DIR=$(pwd)
+# mkdir -p "$INSTALL_DIR/lib/pkgconfig"
+# mkdir -p "$INSTALL_DIR/include"
 
-# If libpostal.so.1 is found
-if [ -n "$LIBPOSTAL_PATH" ]; then
-    # Extract the directory path where the library is located
-    LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
-    echo "LIB_DIR is $LIB_DIR"
-    # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
-    echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
+# ./bootstrap.sh
 
-    # Add LIBDIR to LD_RUN_PATH to assist with linking
-    echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+# # Set LDFLAGS and CFLAGS for the build process
+# LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --prefix="/app/libpostal"
 
-    echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
-else
-    echo "Error: libpostal.so.1 not found."
-    exit 1
-fi
+# # Build and install libpostal
+# make
+# make install
+
+# # Locate the installed libpostal shared library
+# LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)
+
+# # If libpostal.so.1 is found
+# if [ -n "$LIBPOSTAL_PATH" ]; then
+#     # Extract the directory path where the library is located
+#     LIB_DIR=$(dirname "$LIBPOSTAL_PATH")
+#     echo "LIB_DIR is $LIB_DIR"
+#     # Export the LD_LIBRARY_PATH and PKG_CONFIG_PATH to include the necessary directories
+#     echo "export LD_LIBRARY_PATH=\"$LIB_DIR:\$LD_LIBRARY_PATH\"; export PKG_CONFIG_PATH=\"$INSTALL_DIR/lib/pkgconfig:\$PKG_CONFIG_PATH\"" > $BP_DIR/export
+
+#     # Add LIBDIR to LD_RUN_PATH to assist with linking
+#     echo "export LD_RUN_PATH=\"$LIB_DIR:\$LD_RUN_PATH\"" >> $BP_DIR/export
+
+#     echo "LD_LIBRARY_PATH and LD_RUN_PATH set. LD_LIBRARY_PATH includes libpostal at $LIB_DIR"
+# else
+#     echo "Error: libpostal.so.1 not found."
+#     exit 1
+# fi

@@ -25,7 +25,7 @@ cd "$INSTALL_DIR/libpostal-1.1"
 ./bootstrap.sh
 
 # Set LDFLAGS and CFLAGS for the build process
-LDFLAGS="-L$$BUILD_DIR/lib" CFLAGS="-I$BUILD_DIR/include" PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig" ./configure --prefix=$INSTALL_DIR --datadir=$BUILD_DIR
+LDFLAGS="-L$BUILD_DIR/lib" CFLAGS="-I$BUILD_DIR/include" PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig" ./configure --prefix=$INSTALL_DIR --datadir=$BUILD_DIR
 
 # Build and install libpostal
 make

@@ -11,7 +11,7 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 echo "-----> Installing libpostal"
 
 # Create installation directories in BUILD_DIR
-mkdir -p $BUILD_DIR
+# mkdir -p $BUILD_DIR
 INSTALL_DIR="$CACHE_DIR/personal-libpostal"
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"

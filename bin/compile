@@ -8,37 +8,30 @@ CACHE_DIR=$2
 ENV_DIR=$3
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
+cd $CACHE_DIR
+
 echo "-----> Installing libpostal"
 
-# Create installation directories in BUILD_DIR
-# mkdir -p $BUILD_DIR
-INSTALL_DIR="$CACHE_DIR/personal-libpostal"
+git clone https://github.com/openvenues/libpostal
+
+cd "libpostal"
+
+INSTALL_DIR=$(pwd)
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 
 # Download and extract libpostal
-curl -L https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz | tar xz -C "$INSTALL_DIR"
 
-# Navigate to the extracted directory
-cd "$INSTALL_DIR/libpostal-1.1"
 
 # Prepare the build using Autotools
 ./bootstrap.sh
 
 # Set LDFLAGS and CFLAGS for the build process
-# LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" 
-./configure --prefix='/app/libpostal' --datadir=$INSTALL_DIR
+LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure 
 
 # Build and install libpostal
 make -j4
 make install
-ldconfig
-
-# # Copy the contents from /app/libpostal
-# cp -r /app/libpostal $BUILD_DIR
-
-# # If the copy was successful, remove the original directory
-# rm -rf /app/libpostal
 
 # Locate the installed libpostal shared library
 LIBPOSTAL_PATH=$(find "$INSTALL_DIR" -name "libpostal.so.1" | head -n 1)

@@ -20,17 +20,13 @@ INSTALL_DIR=$(pwd)
 mkdir -p "$INSTALL_DIR/lib/pkgconfig"
 mkdir -p "$INSTALL_DIR/include"
 
-# Download and extract libpostal
-
-
-# Prepare the build using Autotools
 ./bootstrap.sh
 
 # Set LDFLAGS and CFLAGS for the build process
-LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure 
+LDFLAGS="-L$INSTALL_DIR/lib" CFLAGS="-I$INSTALL_DIR/include" PKG_CONFIG_PATH="$INSTALL_DIR/lib/pkgconfig" ./configure --datadir=$CACHE_DIR
 
 # Build and install libpostal
-make -j4
+make
 make install
 
 # Locate the installed libpostal shared library
